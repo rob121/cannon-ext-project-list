@@ -26,7 +26,7 @@ const (
 	extensionName        = "cannon-ext-project-list"
 	extensionTitle       = "Project List"
 	extensionDescription = "Publishes open camp projects and records when someone adopts one."
-	extensionVersion     = "0.1.0"
+	extensionVersion     = "0.1.1"
 	updateURLBase        = "https://github.com/rob121/cannon-ext-project-list/releases/download"
 	defaultAdminMenu     = "Projects"
 	pageSize             = 20

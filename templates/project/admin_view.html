@@ -1,8 +1,12 @@
 <section class="project-list-admin">
   {{if .Saved}}<div class="admin-alert admin-alert-success">Project saved.</div>{{end}}
-  <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+  <div class="d-flex flex-wrap align-items-center justify-content-end gap-3 mb-4">
     <a class="btn-admin-outline" href="{{.Base}}" data-turbo-frame="_top">Back to Projects</a>
     <a class="btn-admin-primary" href="{{.Base}}/projects/{{.Project.ID}}/edit" data-turbo-frame="_top">Edit Project</a>
+    <form class="mb-0" method="post" action="{{.Base}}/projects/{{.Project.ID}}/delete" onsubmit="return confirm('Delete this project?');">
+      {{.CSRFField}}
+      <button class="btn-admin-outline btn-admin-danger" type="submit">Delete Project</button>
+    </form>
   </div>
   <div class="admin-form-split">
     <div class="admin-form-split-main">
@@ -75,10 +79,6 @@
           <p class="mb-0"><strong>On Site</strong><br>{{if .Project.Active}}Active{{else}}Inactive{{end}}</p>
         </div>
       </div>
-      <form class="mt-3" method="post" action="{{.Base}}/projects/{{.Project.ID}}/delete" onsubmit="return confirm('Delete this project?');">
-        {{.CSRFField}}
-        <button class="btn-admin-outline btn-admin-danger" type="submit">Delete Project</button>
-      </form>
     </aside>
   </div>
 </section>

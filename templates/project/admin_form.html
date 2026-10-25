@@ -30,9 +30,12 @@
                 <p class="admin-form-help">Leave this blank to hide the date on the public page.</p>
               </div>
             </div>
-            <div class="admin-form-actions">
-              <button class="btn-admin-primary" type="submit">Save Project</button>
+            <div class="admin-form-actions justify-content-end">
               <a class="btn-admin-outline" href="{{if .IsNew}}{{.Base}}{{else}}{{.Base}}/projects/{{.Project.ID}}{{end}}">{{if .IsNew}}Back to Projects{{else}}View Project{{end}}</a>
+              <button class="btn-admin-primary" type="submit">Save Project</button>
+              {{if not .IsNew}}
+              <button class="btn-admin-outline btn-admin-danger" type="submit" form="project-delete-form">Delete Project</button>
+              {{end}}
             </div>
           </div>
         </div>
@@ -67,9 +70,8 @@
     </div>
   </form>
   {{if not .IsNew}}
-  <form class="mt-3" method="post" action="{{.Base}}/projects/{{.Project.ID}}/delete" onsubmit="return confirm('Delete this project?');">
+  <form id="project-delete-form" hidden method="post" action="{{.Base}}/projects/{{.Project.ID}}/delete" onsubmit="return confirm('Delete this project?');">
     {{.CSRFField}}
-    <button class="btn-admin-outline btn-admin-danger" type="submit">Delete Project</button>
   </form>
   {{end}}
 </section>
