@@ -1,0 +1,84 @@
+<section class="project-list-admin">
+  {{if .Saved}}<div class="admin-alert admin-alert-success">Project saved.</div>{{end}}
+  <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+    <a class="btn-admin-outline" href="{{.Base}}" data-turbo-frame="_top">Back to Projects</a>
+    <a class="btn-admin-primary" href="{{.Base}}/projects/{{.Project.ID}}/edit" data-turbo-frame="_top">Edit Project</a>
+  </div>
+  <div class="admin-form-split">
+    <div class="admin-form-split-main">
+      <div class="admin-form-card">
+        <div class="admin-form-card-header">
+          <div class="admin-form-card-heading">
+            <h2 class="admin-form-card-title">{{.Project.Name}}</h2>
+            <p class="admin-form-card-desc">{{.StatusLabel}}{{if .Project.Active}} · Active{{else}} · Inactive{{end}}</p>
+          </div>
+        </div>
+        <div class="admin-form-card-body">
+          <h3 class="admin-form-label">Description</h3>
+          <p style="white-space:pre-wrap">{{.Project.Note}}</p>
+          <h3 class="admin-form-label">Resources Needed</h3>
+          <p style="white-space:pre-wrap">{{.Project.Skills}}</p>
+          {{if .CompleteByLabel}}<p><strong>Complete By</strong> {{.CompleteByLabel}}</p>{{end}}
+        </div>
+      </div>
+      <div class="admin-form-card mt-4">
+        <div class="admin-form-card-header">
+          <div class="admin-form-card-heading">
+            <h2 class="admin-form-card-title">Adoptions</h2>
+            <p class="admin-form-card-desc">{{if .Adoptions}}{{len .Adoptions}} {{if eq (len .Adoptions) 1}}person has{{else}}people have{{end}} adopted this project.{{else}}No one has adopted this project yet.{{end}}</p>
+          </div>
+        </div>
+        <div class="admin-form-card-body">
+          {{if .Adoptions}}
+          <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Proposed Date</th>
+                  <th>Note</th>
+                  <th>Submitted</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{range .Adoptions}}
+                <tr>
+                  <td>{{.Name}}</td>
+                  <td><a href="mailto:{{.Email}}">{{.Email}}</a></td>
+                  <td>{{.Phone}}</td>
+                  <td>{{with .ProposedDateLabel}}{{.}}{{else}}—{{end}}</td>
+                  <td style="white-space:pre-wrap">{{if .Note}}{{.Note}}{{else}}—{{end}}</td>
+                  <td>{{with .SubmittedLabel}}{{.}}{{else}}—{{end}}</td>
+                </tr>
+                {{end}}
+              </tbody>
+            </table>
+          </div>
+          {{else}}
+          <p class="mb-0">No Adoptions Yet.</p>
+          {{end}}
+        </div>
+      </div>
+    </div>
+    <aside class="admin-form-split-sidebar" aria-label="Status">
+      <div class="admin-form-card">
+        <div class="admin-form-card-header">
+          <div class="admin-form-card-heading">
+            <h2 class="admin-form-card-title">Status</h2>
+            <p class="admin-form-card-desc">Only active projects with status Open appear on the site. Adoptions do not change this status.</p>
+          </div>
+        </div>
+        <div class="admin-form-card-body">
+          <p class="mb-2"><strong>Status</strong><br>{{.StatusLabel}}</p>
+          <p class="mb-0"><strong>On Site</strong><br>{{if .Project.Active}}Active{{else}}Inactive{{end}}</p>
+        </div>
+      </div>
+      <form class="mt-3" method="post" action="{{.Base}}/projects/{{.Project.ID}}/delete" onsubmit="return confirm('Delete this project?');">
+        {{.CSRFField}}
+        <button class="btn-admin-outline btn-admin-danger" type="submit">Delete Project</button>
+      </form>
+    </aside>
+  </div>
+</section>

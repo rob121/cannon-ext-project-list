@@ -1,0 +1,59 @@
+<section class="project-list-page" data-page-item="{{.PageItem}}">
+  <h1 class="card-title">{{.Title}}</h1>
+  {{if .Intro}}<p class="project-list-intro">{{.Intro}}</p>{{end}}
+  {{if .Sent}}<p class="alert alert-success" role="status">Thank You. We will contact you to coordinate this project.</p>{{end}}
+  {{if .AdoptMissing}}<p class="alert alert-warning" role="status">That project is no longer open.</p>{{end}}
+
+  {{if .Adopt}}
+  <article class="project-list-card">
+    <p><a href="{{.ListURL}}">Back to Open Projects</a></p>
+    <h2>{{.Adopt.Name}}</h2>
+    <h3>Description</h3>
+    <p class="project-list-copy">{{.Adopt.Note}}</p>
+    <h3>Resources Needed</h3>
+    <p class="project-list-copy">{{.Adopt.Skills}}</p>
+    {{if .Adopt.CompleteByLabel}}<p class="project-list-due">Complete By {{.Adopt.CompleteByLabel}}</p>{{end}}
+    <form class="project-list-form" method="post" action="{{.ActionURL}}">
+      {{.CSRFField}}
+      <input type="hidden" name="project_id" value="{{.Adopt.ID}}">
+      <input type="hidden" name="return_url" value="{{.ReturnURL}}">
+      <div class="mb-3">
+        <label class="form-label" for="project-name">Name</label>
+        <input class="form-control" id="project-name" name="name" type="text" required autocomplete="name">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="project-email">Email</label>
+        <input class="form-control" id="project-email" name="email" type="email" required autocomplete="email">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="project-phone">Phone</label>
+        <input class="form-control" id="project-phone" name="phone" type="tel" required autocomplete="tel">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="project-proposed-date">Proposed Date</label>
+        <input class="form-control" id="project-proposed-date" name="proposed_date" type="date">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="project-note">Note</label>
+        <textarea class="form-control" id="project-note" name="note" rows="4"></textarea>
+      </div>
+      <captcha context="form" provider="any"></captcha>
+      <button class="btn btn-primary" type="submit">Adopt This Project</button>
+    </form>
+  </article>
+  {{else}}
+  {{range .Projects}}
+  <article class="project-list-card">
+    <h2>{{.Name}}</h2>
+    <h3>Description</h3>
+    <p class="project-list-copy">{{.Note}}</p>
+    <h3>Resources Needed</h3>
+    <p class="project-list-copy">{{.Skills}}</p>
+    {{if .CompleteByLabel}}<p class="project-list-due">Complete By {{.CompleteByLabel}}</p>{{end}}
+    <a class="btn btn-primary" href="{{.AdoptURL}}">Adopt This Project</a>
+  </article>
+  {{else}}
+  <p class="project-list-empty">No Projects Are Open Right Now.</p>
+  {{end}}
+  {{end}}
+</section>

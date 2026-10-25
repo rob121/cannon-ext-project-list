@@ -1,0 +1,56 @@
+<section class="project-list-admin">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Projects</h1>
+    <div class="admin-page-actions">
+      <a class="btn-admin-outline" href="{{.Base}}/settings">Page Text</a>
+      <a class="btn-admin-primary" href="{{.Base}}/projects/new">New Project</a>
+    </div>
+  </div>
+  <form class="row g-2 mb-3" method="get" action="{{.Base}}">
+    <div class="col-md-6">
+      <label class="visually-hidden" for="project-search">Search</label>
+      <input class="form-control" id="project-search" name="q" type="search" value="{{.Query}}" placeholder="Search name, description, resources, or adopter">
+    </div>
+    <div class="col-md-3">
+      <label class="visually-hidden" for="project-status">Status</label>
+      <select class="form-select" id="project-status" name="status">
+        <option value="">Any Status</option>
+        {{range .Statuses}}<option value="{{.Value}}" {{if eq $.Status .Value}}selected{{end}}>{{.Label}}</option>{{end}}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+  </form>
+  <p>{{.Total}} {{if eq .Total 1}}project{{else}}projects{{end}}</p>
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr><th>Name</th><th>Status</th><th>On Site</th><th>Complete By</th><th>Adoptions</th><th></th></tr>
+      </thead>
+      <tbody>
+        {{range .Rows}}
+        <tr>
+          <td><a href="{{$.Base}}/projects/{{.ID}}" data-turbo-frame="_top">{{.Name}}</a></td>
+          <td>{{.StatusLabel}}</td>
+          <td>{{if .Active}}Active{{else}}Inactive{{end}}</td>
+          <td>{{if .CompleteByLabel}}{{.CompleteByLabel}}{{else}}—{{end}}</td>
+          <td>{{if .AdoptionCount}}{{.AdoptionCount}}{{else}}0{{end}}</td>
+          <td>
+            <a href="{{$.Base}}/projects/{{.ID}}" data-turbo-frame="_top">View</a>
+            <a href="{{$.Base}}/projects/{{.ID}}/edit" data-turbo-frame="_top">Edit</a>
+          </td>
+        </tr>
+        {{else}}
+        <tr><td colspan="6">No projects match this search.</td></tr>
+        {{end}}
+      </tbody>
+    </table>
+  </div>
+  {{if or .HasPrev .HasNext}}
+  <nav aria-label="Project pages">
+    {{if .HasPrev}}<a href="{{.Base}}?q={{.Query}}&amp;status={{.Status}}&amp;page={{sub .Page 1}}">Previous</a>{{end}}
+    {{if .HasNext}}<a href="{{.Base}}?q={{.Query}}&amp;status={{.Status}}&amp;page={{add .Page 1}}">Next</a>{{end}}
+  </nav>
+  {{end}}
+</section>

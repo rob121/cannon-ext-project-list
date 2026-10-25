@@ -1,0 +1,31 @@
+<section class="project-list-admin">
+  {{if .Saved}}<div class="admin-alert admin-alert-success">Page text saved.</div>{{end}}
+  <form method="post" action="{{.Base}}/settings">
+    {{.CSRFField}}
+    <div class="admin-form-card">
+      <div class="admin-form-card-header">
+        <div class="admin-form-card-heading">
+          <h2 class="admin-form-card-title">Page Text</h2>
+          <p class="admin-form-card-desc">This heading and introduction appear above the open projects on the public page.</p>
+        </div>
+      </div>
+      <div class="admin-form-card-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="admin-form-label" for="project-page-title">Heading</label>
+            <input class="admin-form-control" id="project-page-title" name="title" type="text" required value="{{.Title}}">
+          </div>
+          <div class="col-12">
+            <label class="admin-form-label" for="project-page-intro">Introduction</label>
+            <textarea class="admin-form-control" id="project-page-intro" name="introduction" rows="4">{{.Introduction}}</textarea>
+            <p class="admin-form-help">Leave the introduction blank to hide it.</p>
+          </div>
+        </div>
+        <div class="admin-form-actions">
+          <button class="btn-admin-primary" type="submit">Save Page Text</button>
+          <a class="btn-admin-outline" href="{{.Base}}">Back to Projects</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
